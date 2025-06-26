@@ -197,7 +197,13 @@
   "downloadFolder": "Download Folder",
   "selectDownloadFolder": "Select Download Folder",
   "testConnection": "Test Connection",
-  "connectionSuccess": "Connection Successful",
-  "connectionFailed": "Connection Failed",
-  "selectFolderFirst": "Please select download folder first"
+  "connectionSuccess": "Connection successful",
+  "connectionFailed": "Connection failed",
+  "selectFolderFirst": "Please select download folder first",
+  "corsError": "CORS error occurred",
+  "corsErrorDescription": "Please run proxy server or use browser extension",
+  "proxyServerNotRunning": "Proxy server is not running",
+  "proxyServerNotRunningDescription": "Please start proxy server first (npm start)",
+  "networkError": "Network error",
+  "networkErrorDescription": "Cannot connect to server. Please check address and port"
 } 

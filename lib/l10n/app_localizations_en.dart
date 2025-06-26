@@ -174,11 +174,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testConnection => 'Test Connection';
 
   @override
-  String get connectionSuccess => 'Connection Successful';
+  String get connectionSuccess => 'Connection successful';
 
   @override
-  String get connectionFailed => 'Connection Failed';
+  String get connectionFailed => 'Connection failed';
 
   @override
   String get selectFolderFirst => 'Please select download folder first';
+
+  @override
+  String get corsError => 'CORS error occurred';
+
+  @override
+  String get corsErrorDescription =>
+      'Please run proxy server or use browser extension';
+
+  @override
+  String get proxyServerNotRunning => 'Proxy server is not running';
+
+  @override
+  String get proxyServerNotRunningDescription =>
+      'Please start proxy server first (npm start)';
+
+  @override
+  String get networkError => 'Network error';
+
+  @override
+  String get networkErrorDescription =>
+      'Cannot connect to server. Please check address and port';
 }

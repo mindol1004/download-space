@@ -181,4 +181,23 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get selectFolderFirst => '먼저 다운로드 폴더를 선택하세요';
+
+  @override
+  String get corsError => 'CORS 오류가 발생했습니다';
+
+  @override
+  String get corsErrorDescription => '프록시 서버를 실행하거나 브라우저 확장 프로그램을 사용하세요';
+
+  @override
+  String get proxyServerNotRunning => '프록시 서버가 실행되지 않았습니다';
+
+  @override
+  String get proxyServerNotRunningDescription =>
+      '프록시 서버를 먼저 실행해주세요 (npm start)';
+
+  @override
+  String get networkError => '네트워크 오류';
+
+  @override
+  String get networkErrorDescription => '서버에 연결할 수 없습니다. 주소와 포트를 확인하세요';
 }

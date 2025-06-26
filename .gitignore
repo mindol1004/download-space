@@ -3,6 +3,8 @@
 npm-global/
 .npm-global/
 npm-global-packages/
+node_modules/
+package-lock.json
 
 # Miscellaneous
 *.class

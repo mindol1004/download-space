@@ -62,7 +62,8 @@ import 'app_localizations_ko.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,7 +71,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,7 +84,8 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -430,9 +433,46 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'먼저 다운로드 폴더를 선택하세요'**
   String get selectFolderFirst;
+
+  /// No description provided for @corsError.
+  ///
+  /// In ko, this message translates to:
+  /// **'CORS 오류가 발생했습니다'**
+  String get corsError;
+
+  /// No description provided for @corsErrorDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'프록시 서버를 실행하거나 브라우저 확장 프로그램을 사용하세요'**
+  String get corsErrorDescription;
+
+  /// No description provided for @proxyServerNotRunning.
+  ///
+  /// In ko, this message translates to:
+  /// **'프록시 서버가 실행되지 않았습니다'**
+  String get proxyServerNotRunning;
+
+  /// No description provided for @proxyServerNotRunningDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'프록시 서버를 먼저 실행해주세요 (npm start)'**
+  String get proxyServerNotRunningDescription;
+
+  /// No description provided for @networkError.
+  ///
+  /// In ko, this message translates to:
+  /// **'네트워크 오류'**
+  String get networkError;
+
+  /// No description provided for @networkErrorDescription.
+  ///
+  /// In ko, this message translates to:
+  /// **'서버에 연결할 수 없습니다. 주소와 포트를 확인하세요'**
+  String get networkErrorDescription;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -441,25 +481,25 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'ko'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ko'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'ko': return AppLocalizationsKo();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'ko':
+      return AppLocalizationsKo();
   }
 
   throw FlutterError(
-    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
