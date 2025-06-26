@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>토렌트 매니저 딥링킹 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+        }
+        .test-link:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <h1>토렌트 매니저 딥링킹 테스트</h1>
+    <p>아래 링크를 클릭하여 딥링킹이 작동하는지 테스트해보세요:</p>
+    
+    <a href="?magnet=magnet:?xt=urn:btih:1234567890abcdef&dn=test+torrent" class="test-link">
+        테스트 토렌트 링크 1
+    </a>
+    
+    <a href="?magnet=magnet:?xt=urn:btih:abcdef1234567890&dn=sample+file" class="test-link">
+        테스트 토렌트 링크 2
+    </a>
+    
+    <p><strong>사용법:</strong></p>
+    <ol>
+        <li>Flutter 웹 앱을 실행합니다</li>
+        <li>위의 링크 중 하나를 클릭합니다</li>
+        <li>앱에서 다운로드 추가 화면이 열리는지 확인합니다</li>
+    </ol>
+    
+    <p><strong>직접 테스트:</strong></p>
+    <p>브라우저 주소창에 다음을 입력해보세요:</p>
+    <code>http://localhost:포트번호/?magnet=magnet:?xt=urn:btih:1234567890abcdef&dn=test+torrent</code>
+</body>
+</html> 

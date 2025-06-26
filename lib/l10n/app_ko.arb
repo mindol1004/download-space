@@ -1,0 +1,203 @@
+{
+  "@@locale": "ko",
+  "appTitle": "토렌트 매니저",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "downloadList": "다운로드 목록",
+  "@downloadList": {
+    "description": "Title for download list screen"
+  },
+  "serverManagement": "서버 관리",
+  "@serverManagement": {
+    "description": "Title for server management screen"
+  },
+  "addServer": "서버 추가",
+  "@addServer": {
+    "description": "Title for adding server"
+  },
+  "editServer": "서버 수정",
+  "@editServer": {
+    "description": "Title for editing server"
+  },
+  "serverName": "서버 이름",
+  "@serverName": {
+    "description": "Label for server name field"
+  },
+  "serverType": "서버 타입",
+  "@serverType": {
+    "description": "Label for server type field"
+  },
+  "address": "주소",
+  "@address": {
+    "description": "Label for address field"
+  },
+  "port": "포트",
+  "@port": {
+    "description": "Label for port field"
+  },
+  "username": "사용자 이름",
+  "@username": {
+    "description": "Label for username field"
+  },
+  "password": "비밀번호",
+  "@password": {
+    "description": "Label for password field"
+  },
+  "add": "추가",
+  "@add": {
+    "description": "Button text for adding"
+  },
+  "edit": "수정",
+  "@edit": {
+    "description": "Button text for editing"
+  },
+  "save": "저장",
+  "@save": {
+    "description": "Button text for saving"
+  },
+  "cancel": "취소",
+  "@cancel": {
+    "description": "Button text for canceling"
+  },
+  "delete": "삭제",
+  "@delete": {
+    "description": "Button text for deleting"
+  },
+  "serverSelection": "서버 선택",
+  "@serverSelection": {
+    "description": "Label for server selection dropdown"
+  },
+  "noTorrentTasks": "토렌트 작업이 없습니다",
+  "@noTorrentTasks": {
+    "description": "Message when no torrent tasks exist"
+  },
+  "noServers": "등록된 서버가 없습니다",
+  "@noServers": {
+    "description": "Message when no servers are registered"
+  },
+  "status": "상태",
+  "@status": {
+    "description": "Label for status"
+  },
+  "progress": "진행률",
+  "@progress": {
+    "description": "Label for progress"
+  },
+  "addDownload": "다운로드 추가",
+  "@addDownload": {
+    "description": "Button text for adding download"
+  },
+  "errorOccurred": "에러가 발생했습니다",
+  "@errorOccurred": {
+    "description": "Message when an error occurs"
+  },
+  "deleteServerConfirm": "서버 삭제",
+  "@deleteServerConfirm": {
+    "description": "Title for delete server confirmation dialog"
+  },
+  "deleteServerMessage": "{serverName}을(를) 삭제하시겠습니까?",
+  "@deleteServerMessage": {
+    "description": "Message for delete server confirmation",
+    "placeholders": {
+      "serverName": {
+        "type": "String",
+        "example": "내 서버"
+      }
+    }
+  },
+  "requiredField": "필수 입력 항목입니다.",
+  "@requiredField": {
+    "description": "Validation message for required fields"
+  },
+  "language": "언어",
+  "@language": {
+    "description": "Label for language selection"
+  },
+  "korean": "한국어",
+  "@korean": {
+    "description": "Korean language option"
+  },
+  "english": "영어",
+  "@english": {
+    "description": "English language option"
+  },
+  "settings": "설정",
+  "@settings": {
+    "description": "Title for settings screen"
+  },
+  "magnetLink": "마그넷 링크",
+  "@magnetLink": {
+    "description": "Label for magnet link field"
+  },
+  "enterMagnetLink": "마그넷 링크를 입력하세요.",
+  "@enterMagnetLink": {
+    "description": "Validation message for magnet link field"
+  },
+  "addMagnet": "마그넷 추가",
+  "@addMagnet": {
+    "description": "Button text for adding magnet link"
+  },
+  "torrentFile": ".torrent 파일",
+  "@torrentFile": {
+    "description": "Button text for torrent file upload"
+  },
+  "selectServerFirst": "서버를 먼저 선택하세요.",
+  "@selectServerFirst": {
+    "description": "Error message when no server is selected"
+  },
+  "magnetAddFailed": "마그넷 추가 실패: {error}",
+  "@magnetAddFailed": {
+    "description": "Error message when magnet link addition fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "fileAddFailed": "파일 추가 실패: {error}",
+  "@fileAddFailed": {
+    "description": "Error message when torrent file addition fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File error"
+      }
+    }
+  },
+  "addFirstServer": "첫 번째 서버를 추가해보세요",
+  "@addFirstServer": {
+    "description": "Message to encourage adding first server"
+  },
+  "or": "또는",
+  "@or": {
+    "description": "Text for 'or' separator"
+  },
+  "addingDownload": "다운로드를 추가하는 중...",
+  "@addingDownload": {
+    "description": "Loading message when adding download"
+  },
+  "loadingTorrentList": "토렌트 목록을 불러오는 중...",
+  "@loadingTorrentList": {
+    "description": "Loading message when fetching torrent list"
+  },
+  "addNewDownload": "새로운 다운로드를 추가해보세요",
+  "@addNewDownload": {
+    "description": "Message to encourage adding new download"
+  },
+  "paste": "붙여넣기",
+  "selectFile": "파일 선택",
+  "torrentFileSelect": "토렌트 파일 선택",
+  "serverNameRequired": "서버 이름을 입력하세요",
+  "serverAddressRequired": "서버 주소를 입력하세요",
+  "portRequired": "포트 번호를 입력하세요",
+  "portMustBeNumber": "포트 번호는 숫자여야 합니다",
+  "portRangeError": "포트 번호는 1-65535 사이여야 합니다",
+  "downloadFolder": "다운로드 폴더",
+  "selectDownloadFolder": "다운로드 폴더 선택",
+  "testConnection": "연결 테스트",
+  "connectionSuccess": "연결 성공",
+  "connectionFailed": "연결 실패",
+  "selectFolderFirst": "먼저 다운로드 폴더를 선택하세요"
+} 

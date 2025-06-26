@@ -1,0 +1,203 @@
+{
+  "@@locale": "en",
+  "appTitle": "Torrent Manager",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "downloadList": "Download List",
+  "@downloadList": {
+    "description": "Title for download list screen"
+  },
+  "serverManagement": "Server Management",
+  "@serverManagement": {
+    "description": "Title for server management screen"
+  },
+  "addServer": "Add Server",
+  "@addServer": {
+    "description": "Title for adding server"
+  },
+  "editServer": "Edit Server",
+  "@editServer": {
+    "description": "Title for editing server"
+  },
+  "serverName": "Server Name",
+  "@serverName": {
+    "description": "Label for server name field"
+  },
+  "serverType": "Server Type",
+  "@serverType": {
+    "description": "Label for server type field"
+  },
+  "address": "Address",
+  "@address": {
+    "description": "Label for address field"
+  },
+  "port": "Port",
+  "@port": {
+    "description": "Label for port field"
+  },
+  "username": "Username",
+  "@username": {
+    "description": "Label for username field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Label for password field"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Button text for adding"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Button text for editing"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Button text for saving"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Button text for canceling"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Button text for deleting"
+  },
+  "serverSelection": "Server Selection",
+  "@serverSelection": {
+    "description": "Label for server selection dropdown"
+  },
+  "noTorrentTasks": "No torrent tasks",
+  "@noTorrentTasks": {
+    "description": "Message when no torrent tasks exist"
+  },
+  "noServers": "No servers registered",
+  "@noServers": {
+    "description": "Message when no servers are registered"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Label for status"
+  },
+  "progress": "Progress",
+  "@progress": {
+    "description": "Label for progress"
+  },
+  "addDownload": "Add Download",
+  "@addDownload": {
+    "description": "Button text for adding download"
+  },
+  "errorOccurred": "An error occurred",
+  "@errorOccurred": {
+    "description": "Message when an error occurs"
+  },
+  "deleteServerConfirm": "Delete Server",
+  "@deleteServerConfirm": {
+    "description": "Title for delete server confirmation dialog"
+  },
+  "deleteServerMessage": "Are you sure you want to delete {serverName}?",
+  "@deleteServerMessage": {
+    "description": "Message for delete server confirmation",
+    "placeholders": {
+      "serverName": {
+        "type": "String",
+        "example": "My Server"
+      }
+    }
+  },
+  "requiredField": "Required field",
+  "@requiredField": {
+    "description": "Validation message for required fields"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Label for language selection"
+  },
+  "korean": "Korean",
+  "@korean": {
+    "description": "Korean language option"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Title for settings screen"
+  },
+  "magnetLink": "Magnet Link",
+  "@magnetLink": {
+    "description": "Label for magnet link field"
+  },
+  "enterMagnetLink": "Please enter a magnet link.",
+  "@enterMagnetLink": {
+    "description": "Validation message for magnet link field"
+  },
+  "addMagnet": "Add Magnet",
+  "@addMagnet": {
+    "description": "Button text for adding magnet link"
+  },
+  "torrentFile": ".torrent File",
+  "@torrentFile": {
+    "description": "Button text for torrent file upload"
+  },
+  "selectServerFirst": "Please select a server first.",
+  "@selectServerFirst": {
+    "description": "Error message when no server is selected"
+  },
+  "magnetAddFailed": "Magnet link addition failed: {error}",
+  "@magnetAddFailed": {
+    "description": "Error message when magnet link addition fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "fileAddFailed": "File addition failed: {error}",
+  "@fileAddFailed": {
+    "description": "Error message when torrent file addition fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File error"
+      }
+    }
+  },
+  "addFirstServer": "Add your first server",
+  "@addFirstServer": {
+    "description": "Message to encourage adding first server"
+  },
+  "or": "or",
+  "@or": {
+    "description": "Text for 'or' separator"
+  },
+  "addingDownload": "Adding download...",
+  "@addingDownload": {
+    "description": "Loading message when adding download"
+  },
+  "loadingTorrentList": "Loading torrent list...",
+  "@loadingTorrentList": {
+    "description": "Loading message when fetching torrent list"
+  },
+  "addNewDownload": "Add a new download",
+  "@addNewDownload": {
+    "description": "Message to encourage adding new download"
+  },
+  "paste": "Paste",
+  "selectFile": "Select File",
+  "torrentFileSelect": "Select torrent file",
+  "serverNameRequired": "Please enter server name",
+  "serverAddressRequired": "Please enter server address",
+  "portRequired": "Please enter port number",
+  "portMustBeNumber": "Port number must be a number",
+  "portRangeError": "Port number must be between 1-65535",
+  "downloadFolder": "Download Folder",
+  "selectDownloadFolder": "Select Download Folder",
+  "testConnection": "Test Connection",
+  "connectionSuccess": "Connection Successful",
+  "connectionFailed": "Connection Failed",
+  "selectFolderFirst": "Please select download folder first"
+} 
