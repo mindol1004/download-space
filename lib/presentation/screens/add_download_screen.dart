@@ -143,10 +143,14 @@ class _AddDownloadScreenState extends ConsumerState<AddDownloadScreen>
           Navigator.pop(context, true);
         }
       } else {
-        print('파일이 선택되지 않았거나 bytes가 null');
+        if (kDebugMode) {
+          print('파일이 선택되지 않았거나 bytes가 null');
+        }
       }
     } catch (e) {
-      print('FilePicker 에러: $e');
+      if (kDebugMode) {
+        print('FilePicker 에러: $e');
+      }
       final notifier = ref.read(addDownloadViewModelProvider.notifier);
       notifier.setError('파일 선택 중 오류가 발생했습니다: $e', errorType: 'file');
     }
@@ -172,15 +176,21 @@ class _AddDownloadScreenState extends ConsumerState<AddDownloadScreen>
             Navigator.pop(context, true);
           }
         } else {
-          print('웹 파일 bytes가 null');
+          if (kDebugMode) {
+            print('웹 파일 bytes가 null');
+          }
           final notifier = ref.read(addDownloadViewModelProvider.notifier);
           notifier.setError('파일을 읽을 수 없습니다.', errorType: 'file');
         }
       } else {
-        print('웹에서 파일이 선택되지 않음');
+        if (kDebugMode) {
+          print('웹에서 파일이 선택되지 않음');
+        }
       }
     } catch (e) {
-      print('웹 파일 선택 에러: $e');
+      if (kDebugMode) {
+        print('웹 파일 선택 에러: $e');
+      }
       final notifier = ref.read(addDownloadViewModelProvider.notifier);
       notifier.setError('웹에서 파일 선택 중 오류가 발생했습니다: $e', errorType: 'file');
     }
