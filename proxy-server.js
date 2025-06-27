@@ -46,7 +46,7 @@ app.use("/api/synology", (req, res, next) => {
   }
 
   const proxy = createProxyMiddleware({
-    target: `http://${targetServer}`,
+    target: `https://${targetServer}`,
     changeOrigin: true,
     pathRewrite: {
       "^/api/synology": "/webapi",
@@ -93,7 +93,7 @@ app.use("/api/qbittorrent", (req, res, next) => {
   }
 
   const proxy = createProxyMiddleware({
-    target: `http://${targetServer}`,
+    target: `https://${targetServer}`,
     changeOrigin: true,
     pathRewrite: {
       "^/api/qbittorrent": "/api/v2",

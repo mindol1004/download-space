@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/models/server_info.dart';
 import '../../core/models/torrent_task.dart';
-import '../../core/service/torrent_service.dart';
+import '../../core/service/torrent_service.dart'; // TorrentService 임포트
 
 class TorrentListState {
   final List<TorrentTask> tasks;
@@ -20,6 +20,7 @@ class TorrentListState {
 }
 
 class TorrentListViewModel extends StateNotifier<TorrentListState> {
+  // RemoteTorrentClient 대신 TorrentService를 받도록 수정
   final TorrentService _service;
   TorrentListViewModel(this._service) : super(TorrentListState(tasks: []));
 

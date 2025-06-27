@@ -1,8 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpod 임포트
 import '../../models/server_info.dart';
 import '../../models/torrent_task.dart';
 import '../remote_torrent_client.dart';
+
+// QBittorrentClient 프로바이더 정의
+final qbittorrentClientProvider = Provider.family<QBittorrentClient, ServerInfo>((ref, serverInfo) {
+  return QBittorrentClient(serverInfo);
+});
 
 class QBittorrentClient implements RemoteTorrentClient {
   final ServerInfo _serverInfo;
@@ -30,17 +36,17 @@ class QBittorrentClient implements RemoteTorrentClient {
       return status != null && status < 500;
     };
 
-    // 공통 설정
-    _dio.options.connectTimeout = const Duration(seconds: 10);
-    _dio.options.receiveTimeout = const Duration(seconds: 30);
-    _dio.options.sendTimeout = const Duration(seconds: 10);
-
     // 에러 처리
     _dio.interceptors.add(InterceptorsWrapper(
       onError: (error, handler) {
-        print('qBittorrent API Error: ${error.message}');
+        if (kDebugMode) {
+          print('QBittorrent API Error: ${error.message}');
+          print('Error Response: ${error.response?.statusCode} - ${error.response?.data}');
+        }
         if (error.response?.statusCode == 403) {
-          print('CORS Error detected. Please check proxy configuration.');
+          if (kDebugMode) {
+            print('CORS Error detected. Please check proxy configuration.');
+          }
         }
         handler.next(error);
       },
@@ -48,40 +54,37 @@ class QBittorrentClient implements RemoteTorrentClient {
   }
 
   @override
-  Future<void> authenticate() async {
-    if (_isAuthenticated) return;
+  Future<String?> authenticate() async {
+    if (_isAuthenticated) return null;
 
     try {
       final response = await _dio.post(
         '/auth/login',
-        data:
-            'username=${_serverInfo.username}&password=${_serverInfo.password}',
-        options: Options(
-          contentType: 'application/x-www-form-urlencoded',
-        ),
+        data: 'username=${_serverInfo.username}&password=${_serverInfo.password}',
+        options: Options(contentType: Headers.formUrlEncodedContentType),
       );
 
-      if (response.statusCode == 200 &&
-          response.data.toString().trim() == 'Ok.') {
-        final cookies = response.headers['set-cookie'];
-        if (cookies != null) {
-          _dio.options.headers['cookie'] = cookies[0];
-          _isAuthenticated = true;
-        } else {
-          throw Exception(
-              'qBittorrent authentication failed: No cookie received');
-        }
+      if (kDebugMode) print('QBittorrent Authentication Response: ${response.data}');
+
+      if (response.statusCode == 200 && response.data == 'Ok.') {
+        _isAuthenticated = true;
+        return null;
+      } else if (response.statusCode == 403) {
+        throw Exception('QBittorrent authentication failed: Invalid username or password.');
       } else {
-        throw Exception('qBittorrent authentication failed');
+        throw Exception(
+            'QBittorrent authentication failed: ${response.data ?? 'Unknown error'}');
       }
     } catch (e) {
       if (e.toString().contains('CORS') ||
           e.toString().contains('XMLHttpRequest')) {
         throw Exception('CORS 오류가 발생했습니다. 프록시 서버를 실행하거나 브라우저 확장 프로그램을 사용하세요.');
-      } else if (e.toString().contains('Failed to connect') ||
+      }
+      else if (e.toString().contains('Failed to connect') ||
           e.toString().contains('Connection refused')) {
         throw Exception('서버에 연결할 수 없습니다. 주소와 포트를 확인하세요.');
-      } else if (e.toString().contains('timeout')) {
+      }
+      else if (e.toString().contains('timeout')) {
         throw Exception('연결 시간이 초과되었습니다. 네트워크 상태를 확인하세요.');
       }
       rethrow;
@@ -93,11 +96,9 @@ class QBittorrentClient implements RemoteTorrentClient {
     final response = await _dio.get('/torrents/info');
     if (response.statusCode == 200) {
       final tasks = response.data as List;
-      return tasks
-          .map((task) => TorrentTask.fromQBittorrentJson(task))
-          .toList();
+      return tasks.map((task) => TorrentTask.fromQBittorrentJson(task)).toList();
     } else {
-      throw Exception('Failed to fetch tasks from qBittorrent');
+      throw Exception('Failed to fetch tasks from qBittorrent: ${response.statusCode}');
     }
   }
 
@@ -122,12 +123,10 @@ class QBittorrentClient implements RemoteTorrentClient {
 
   @override
   Future<void> removeTask(String id, bool deleteData) async {
-    await _dio.post(
-      '/torrents/delete',
-      data: 'hashes=$id&deleteFiles=$deleteData',
-      options: Options(
-        contentType: 'application/x-www-form-urlencoded',
-      ),
-    );
+    final formData = FormData.fromMap({
+      'hashes': id,
+      'deleteFiles': deleteData ? 'true' : 'false',
+    });
+    await _dio.post('/torrents/delete', data: formData);
   }
 }

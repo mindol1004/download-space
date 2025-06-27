@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/models/server_info.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/service/torrent_service.dart';
+import '../screens/synology_folder_picker_screen.dart';
 
-class ServerEditForm extends StatefulWidget {
+class ServerEditForm extends ConsumerStatefulWidget {
   final ServerInfo? server;
   final void Function(ServerInfo) onSubmit;
   final bool loading;
@@ -16,10 +18,10 @@ class ServerEditForm extends StatefulWidget {
   });
 
   @override
-  State<ServerEditForm> createState() => _ServerEditFormState();
+  ConsumerState<ServerEditForm> createState() => _ServerEditFormState();
 }
 
-class _ServerEditFormState extends State<ServerEditForm> {
+class _ServerEditFormState extends ConsumerState<ServerEditForm> {
   late TextEditingController _nameController;
   late TextEditingController _addressController;
   late TextEditingController _portController;
@@ -32,6 +34,7 @@ class _ServerEditFormState extends State<ServerEditForm> {
   String? _downloadFolder;
   bool _isTestingConnection = false;
   String? _connectionStatus;
+  String? _synologySid; // 시놀로지 SID 저장
 
   @override
   void initState() {
@@ -44,6 +47,28 @@ class _ServerEditFormState extends State<ServerEditForm> {
     _passwordController = TextEditingController(text: s?.password ?? '');
     _type = s?.type ?? ServerType.qbittorrent;
     _downloadFolder = s?.downloadFolder;
+    
+    // isConnected 상태에 따른 _connectionStatus 초기화 로직을 didChangeDependencies로 이동
+    _synologySid = s?.sessionId; // sessionId는 그대로 initState에서 초기화 가능
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // context가 완전히 초기화된 후 AppLocalizations에 접근
+    final l10n = AppLocalizations.of(context);
+    final s = widget.server;
+
+    if (s != null) {
+      if (s.isConnected == true) {
+        _connectionStatus = l10n.connectionSuccess;
+      } else if (s.isConnected == false) {
+        // 연결 실패 상태도 저장되어 있다면 표시
+        _connectionStatus = l10n.connectionFailed;
+      } else {
+        _connectionStatus = null;
+      }
+    }
   }
 
   @override
@@ -139,11 +164,12 @@ class _ServerEditFormState extends State<ServerEditForm> {
     setState(() {
       _isTestingConnection = true;
       _connectionStatus = null;
+      _synologySid = null; // 연결 테스트 시작 시 SID 초기화
     });
 
     try {
       final server = ServerInfo(
-        id: '',
+        id: widget.server?.id ?? '',
         name: _nameController.text.trim(),
         type: _type,
         address: _addressController.text.trim(),
@@ -151,17 +177,22 @@ class _ServerEditFormState extends State<ServerEditForm> {
         username: _usernameController.text.trim(),
         password: _passwordController.text.trim(),
         downloadFolder: _downloadFolder,
+        // 테스트 연결 시점에 isConnected와 sessionId는 아직 알 수 없음. null로 전달.
+        isConnected: null, 
+        sessionId: null,
       );
 
-      final service = TorrentService();
-      await service.testConnection(server);
-      
+      final service = ref.read(torrentServiceProvider);
+      final sid = await service.testConnection(server);
+
       setState(() {
         _connectionStatus = AppLocalizations.of(context).connectionSuccess;
+        _synologySid = sid; // SID 저장
       });
     } catch (e) {
       setState(() {
         _connectionStatus = '${AppLocalizations.of(context).connectionFailed}: $e';
+        _synologySid = null; // 연결 실패 시 SID 초기화
       });
     } finally {
       setState(() {
@@ -171,11 +202,45 @@ class _ServerEditFormState extends State<ServerEditForm> {
   }
 
   Future<void> _selectDownloadFolder() async {
-    final result = await FilePicker.platform.getDirectoryPath();
-    if (result != null) {
-      setState(() {
-        _downloadFolder = result;
-      });
+    // 시놀로지 서버인 경우에만 폴더 선택 화면으로 이동
+    if (_type == ServerType.synology) {
+      // 현재 폼의 입력값으로 ServerInfo 생성 (ID는 기존 서버의 ID를 사용)
+      final server = ServerInfo(
+        id: widget.server?.id ?? '',
+        name: _nameController.text.trim(),
+        type: _type,
+        address: _addressController.text.trim(),
+        port: int.tryParse(_portController.text.trim()) ?? 0,
+        username: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+        downloadFolder: _downloadFolder,
+        // 현재 연결 테스트 성공 상태의 isConnected와 sessionId를 전달
+        isConnected: _connectionStatus == AppLocalizations.of(context).connectionSuccess ? true : false, 
+        sessionId: _synologySid,
+      );
+
+      final selectedFolder = await Navigator.of(context).push<String?>(
+        CupertinoPageRoute(
+          builder: (context) => SynologyFolderPickerScreen(
+            server: server,
+            initialPath: _downloadFolder ?? '/', // 현재 설정된 폴더 또는 루트부터 시작
+          ),
+        ),
+      );
+
+      if (selectedFolder != null) {
+        setState(() {
+          _downloadFolder = selectedFolder;
+        });
+      }
+    } else {
+      // 그 외의 경우 기존 파일 피커 사용
+      final result = await FilePicker.platform.getDirectoryPath();
+      if (result != null) {
+        setState(() {
+          _downloadFolder = result;
+        });
+      }
     }
   }
 
@@ -183,6 +248,14 @@ class _ServerEditFormState extends State<ServerEditForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = CupertinoTheme.of(context);
+
+    // 연결 성공 여부 확인 (SYNO.API.Auth의 성공 코드 0)
+    bool isConnectionSuccess = _connectionStatus != null &&
+        (_connectionStatus!.contains(l10n.connectionSuccess) || _connectionStatus!.contains('Success'));
+    
+    // 시놀로지 서버 타입일 경우에만 폴더 선택 가능하도록
+    bool canSelectSynologyFolder = isConnectionSuccess && _type == ServerType.synology && _synologySid != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -197,7 +270,7 @@ class _ServerEditFormState extends State<ServerEditForm> {
               color: theme.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: _nameError != null 
+                color: _nameError != null
                     ? CupertinoColors.systemRed.withValues(alpha: 0.6)
                     : theme.primaryColor.withValues(alpha: 0.15),
                 width: 1.2,
@@ -249,7 +322,7 @@ class _ServerEditFormState extends State<ServerEditForm> {
               color: theme.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: _addressError != null 
+                color: _addressError != null
                     ? CupertinoColors.systemRed.withValues(alpha: 0.6)
                     : theme.primaryColor.withValues(alpha: 0.15),
                 width: 1.2,
@@ -282,7 +355,7 @@ class _ServerEditFormState extends State<ServerEditForm> {
               color: theme.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: _portError != null 
+                color: _portError != null
                     ? CupertinoColors.systemRed.withValues(alpha: 0.6)
                     : theme.primaryColor.withValues(alpha: 0.15),
                 width: 1.2,
@@ -356,12 +429,12 @@ class _ServerEditFormState extends State<ServerEditForm> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: _connectionStatus!.contains('성공') || _connectionStatus!.contains('Success')
+              color: isConnectionSuccess
                   ? CupertinoColors.systemGreen.withValues(alpha: 0.1)
                   : CupertinoColors.systemRed.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: _connectionStatus!.contains('성공') || _connectionStatus!.contains('Success')
+                color: isConnectionSuccess
                     ? CupertinoColors.systemGreen.withValues(alpha: 0.3)
                     : CupertinoColors.systemRed.withValues(alpha: 0.3),
               ),
@@ -369,7 +442,7 @@ class _ServerEditFormState extends State<ServerEditForm> {
             child: Text(
               _connectionStatus!,
               style: theme.textTheme.textStyle.copyWith(
-                color: _connectionStatus!.contains('성공') || _connectionStatus!.contains('Success')
+                color: isConnectionSuccess
                     ? CupertinoColors.systemGreen
                     : CupertinoColors.systemRed,
                 fontWeight: FontWeight.w500,
@@ -385,7 +458,10 @@ class _ServerEditFormState extends State<ServerEditForm> {
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             color: theme.primaryColor.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
-            onPressed: widget.loading ? null : _selectDownloadFolder,
+            // 시놀로지 서버에 연결 성공한 경우에만 폴더 선택 가능
+            onPressed: widget.loading || (_type == ServerType.synology && !canSelectSynologyFolder)
+                ? null
+                : _selectDownloadFolder,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -420,6 +496,8 @@ class _ServerEditFormState extends State<ServerEditForm> {
                         username: _usernameController.text.trim(),
                         password: _passwordController.text.trim(),
                         downloadFolder: _downloadFolder,
+                        isConnected: isConnectionSuccess, // 현재 연결 성공 상태를 저장
+                        sessionId: _synologySid, // 현재 SID를 저장
                       );
                       widget.onSubmit(info);
                     }

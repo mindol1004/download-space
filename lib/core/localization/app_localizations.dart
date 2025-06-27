@@ -66,6 +66,10 @@ class AppLocalizations {
       'connectionSuccess': '연결 성공',
       'connectionFailed': '연결 실패',
       'selectFolderFirst': '폴더를 먼저 선택하세요.',
+      'select': '선택',
+      'errorLoadingFolders': '폴더 로드 오류',
+      'noFoldersFound': '폴더를 찾을 수 없습니다.',
+      'parentDirectory': '상위 디렉토리',
     },
     'en': {
       'appTitle': 'Torrent Manager',
@@ -123,6 +127,10 @@ class AppLocalizations {
       'connectionSuccess': 'Connection Successful',
       'connectionFailed': 'Connection Failed',
       'selectFolderFirst': 'Please select a folder first.',
+      'select': 'Select',
+      'errorLoadingFolders': 'Error loading folders',
+      'noFoldersFound': 'No folders found.',
+      'parentDirectory': 'Parent Directory',
     },
   };
 
@@ -218,6 +226,10 @@ class AppLocalizations {
   String get connectionSuccess => _localizedValues[locale.languageCode]!['connectionSuccess']!;
   String get connectionFailed => _localizedValues[locale.languageCode]!['connectionFailed']!;
   String get selectFolderFirst => _localizedValues[locale.languageCode]!['selectFolderFirst']!;
+  String get select => _localizedValues[locale.languageCode]!['select']!;
+  String get errorLoadingFolders => _localizedValues[locale.languageCode]!['errorLoadingFolders']!;
+  String get noFoldersFound => _localizedValues[locale.languageCode]!['noFoldersFound']!;
+  String get parentDirectory => _localizedValues[locale.languageCode]!['parentDirectory']!;
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

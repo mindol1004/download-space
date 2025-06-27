@@ -186,20 +186,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get corsError => 'CORS error occurred';
 
   @override
-  String get corsErrorDescription =>
-      'Please run proxy server or use browser extension';
+  String get corsErrorDescription => 'Please run proxy server or use browser extension';
 
   @override
   String get proxyServerNotRunning => 'Proxy server is not running';
 
   @override
-  String get proxyServerNotRunningDescription =>
-      'Please start proxy server first (npm start)';
+  String get proxyServerNotRunningDescription => 'Please start proxy server first (npm start)';
 
   @override
   String get networkError => 'Network error';
 
   @override
-  String get networkErrorDescription =>
-      'Cannot connect to server. Please check address and port';
+  String get networkErrorDescription => 'Cannot connect to server. Please check address and port';
 }

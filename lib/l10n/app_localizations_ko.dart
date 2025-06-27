@@ -192,8 +192,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get proxyServerNotRunning => '프록시 서버가 실행되지 않았습니다';
 
   @override
-  String get proxyServerNotRunningDescription =>
-      '프록시 서버를 먼저 실행해주세요 (npm start)';
+  String get proxyServerNotRunningDescription => '프록시 서버를 먼저 실행해주세요 (npm start)';
 
   @override
   String get networkError => '네트워크 오류';
