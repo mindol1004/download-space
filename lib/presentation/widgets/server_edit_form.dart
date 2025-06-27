@@ -27,7 +27,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
   late TextEditingController _portController;
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
-  ServerType _type = ServerType.qbittorrent;
+  ServerType _type = ServerType.synology;
   String? _nameError;
   String? _addressError;
   String? _portError;
@@ -45,7 +45,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
     _portController = TextEditingController(text: s?.port.toString() ?? '');
     _usernameController = TextEditingController(text: s?.username ?? '');
     _passwordController = TextEditingController(text: s?.password ?? '');
-    _type = s?.type ?? ServerType.qbittorrent;
+    _type = s?.type ?? ServerType.synology;
     _downloadFolder = s?.downloadFolder;
     
     // isConnected 상태에 따른 _connectionStatus 초기화 로직을 didChangeDependencies로 이동
@@ -267,7 +267,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
             enabled: !widget.loading,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
+              color: CupertinoColors.systemGrey6.resolveFrom(context), // Changed for dark mode visibility
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _nameError != null
@@ -319,7 +319,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
             enabled: !widget.loading,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
+              color: CupertinoColors.systemGrey6.resolveFrom(context), // Changed for dark mode visibility
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _addressError != null
@@ -352,7 +352,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
             keyboardType: TextInputType.number,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
+              color: CupertinoColors.systemGrey6.resolveFrom(context), // Changed for dark mode visibility
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _portError != null
@@ -384,7 +384,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
             enabled: !widget.loading,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
+              color: CupertinoColors.systemGrey6.resolveFrom(context), // Changed for dark mode visibility
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: theme.primaryColor.withValues(alpha: 0.15),
@@ -404,7 +404,7 @@ class _ServerEditFormState extends ConsumerState<ServerEditForm> {
             obscureText: true,
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
+              color: CupertinoColors.systemGrey6.resolveFrom(context), // Changed for dark mode visibility
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: theme.primaryColor.withValues(alpha: 0.15),

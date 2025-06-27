@@ -42,7 +42,7 @@ class ServerInfo {
         id: json['id'],
         name: json['name'],
         type: ServerType.values.firstWhere((e) => e.name == json['type'],
-            orElse: () => ServerType.qbittorrent),
+            orElse: () => ServerType.synology),
         address: json['address'],
         port: json['port'],
         username: json['username'],
